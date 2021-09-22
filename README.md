@@ -1,11 +1,11 @@
 # DBMS-Project
 
-### Install yarn 
+# Install yarn 
 - npm i yarn -g
 
-# Environment Setup 
+## Environment Setup 
 - npm install
 
-# How to start 
+## How to start 
 - yarn dev / npm dev (install yarn)
 - open "localhost:3005"
