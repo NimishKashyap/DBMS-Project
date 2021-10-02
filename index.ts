@@ -1,34 +1,26 @@
 import express from "express";
 import mysql from "mysql";
+import insertRoute from "./routes/insertRoutes";
 
 // App initialization
 const app = express();
 
+// Middlewares
+app.use("/backend", insertRoute);
 
 // Follow this tutorial: https://www.youtube.com/watch?v=W8jySpfRUDY
-const database = mysql.createConnection({
-    user:"root",
+export const database = mysql.createConnection({
     host:"localhost",
     password:"root",
+    user:"root",
     database:"testdb"
-});
+}) 
 
 // Initial Route
 app.get("/", (req,res)=>{
     console.log("HIT API ENDPOINT");
     res.send("Hello");
     
-})
-
-// Insert Route
-app.get("/insert",(req,res)=>{
-    database.query("INSERT INTO countries (name, population) VALUES (?,?)",['bulgaria',122],(err,result)=>{
-        if(err){
-            console.log(err);
-            
-        }
-        res.send(result);
-    })
 })
 
 // Listen Route
