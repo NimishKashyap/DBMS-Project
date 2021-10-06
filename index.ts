@@ -1,12 +1,13 @@
 import express from "express";
 import mysql from "mysql";
 import insertRoute from "./routes/insertRoutes";
-
+import getRoute from "./routes/getRoutes";
 // App initialization
 const app = express();
 
 // Middlewares
 app.use("/backend", insertRoute);
+app.use("/backend", getRoute);
 
 // Follow this tutorial: https://www.youtube.com/watch?v=W8jySpfRUDY
 export const database = mysql.createConnection({
