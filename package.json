@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "ffmpeg-extract-frames": "^2.0.2",
+    "fluent-ffmpeg": "^2.1.2",
     "global": "^4.4.0",
     "mysql": "^2.18.1",
     "sequelize": "^6.6.5",

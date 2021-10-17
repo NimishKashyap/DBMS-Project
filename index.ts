@@ -4,7 +4,6 @@ import insertRoute from "./routes/insertRoutes";
 import getRoute from "./routes/getRoutes";
 // App initialization
 const app = express();
-
 // Middlewares
 app.use("/backend", insertRoute);
 app.use("/backend", getRoute);
@@ -16,14 +15,12 @@ export const database = mysql.createConnection({
     user:"root",
     database:"testdb"
 }) 
-
 // Initial Route
 app.get("/", (req,res)=>{
     console.log("HIT API ENDPOINT");
     res.send("Hello");
     
 })
-
 // Listen Route
 app.listen(3005, ()=>{
     console.log("Server is up and running HOOR234AY");
