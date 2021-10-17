@@ -5,6 +5,7 @@
 
 ## Environment Setup 
 - npm install
+- or 'yarn'
 
 ## How to start 
 - yarn dev / npm dev (install yarn)
