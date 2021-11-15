@@ -2,18 +2,27 @@ import express from "express";
 import mysql from "mysql";
 import insertRoute from "./routes/insertRoutes";
 import getRoute from "./routes/getRoutes";
+import logRegRoute from "./routes/logRegRoutes";
+import expressFileUpload from "express-fileupload";
+import cors from "cors";
 // App initialization
 const app = express();
 // Middlewares
+app.use(cors());
+app.use(expressFileUpload());
+app.use(express.json({limit:"500mb"}))
+app.use(express.urlencoded({extended:true, limit:"500mb", parameterLimit:500000}))
+
 app.use("/backend", insertRoute);
 app.use("/backend", getRoute);
+app.use("/backend", logRegRoute);
 
 // Follow this tutorial: https://www.youtube.com/watch?v=W8jySpfRUDY
 export const database = mysql.createConnection({
     host:"localhost",
     password:"root",
     user:"root",
-    database:"testdb"
+    database:"dbmsproject"
 }) 
 // Initial Route
 app.get("/", (req,res)=>{
