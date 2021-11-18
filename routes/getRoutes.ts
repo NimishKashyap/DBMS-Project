@@ -5,11 +5,12 @@ const getRoute = express.Router();
 
 
 // VIDEO GET ROUTES
-getRoute.get("/video/get",(req,res)=>{
-    const videoid = req.headers.videoid;
-    const path = req.headers.path;
+getRoute.get("/video/get/:path",(req,res)=>{
+    // const videoid = req.headers.videoid;
+    const path = req.params.path;
+    // const videoid = req.params;
     
-    console.log(__dirname);
+    console.log(path);
 
     if(!req.headers.range){
         res.status(400).send("Requires Range Header");
@@ -20,7 +21,7 @@ getRoute.get("/video/get",(req,res)=>{
         console.log(range);
         console.log(req.headers);
         
-        const videoPath = __dirname+`/videos/${path || `bigbuck`}.mp4`;
+        const videoPath = __dirname+`/videos/${path}`;
         const videoSize = fs.statSync(videoPath).size;
 
         const CHUNK_SIZE = 10 ** 6;
@@ -44,7 +45,7 @@ getRoute.get("/video/get",(req,res)=>{
 })
 
 getRoute.get("/video/", (req,res)=>{
-    const videoID = req.headers.videoid;
+    const videoID = req.headers.idvideo;
     if(videoID){
         database.query(`SELECT * from video WHERE idvideo=${videoID}`,(err,result)=>{
             if(err){
@@ -52,19 +53,37 @@ getRoute.get("/video/", (req,res)=>{
                 console.log(err);
                 
             }else{
-                database.query(`SELECT u.name from video v natural join user u where idvideo=${videoID}`, (err, result2)=>{
-                    if(err){
-                        res.send("ERROR AT GETTING NAMES");
-                    }
-                    else{
-                        res.json(result.concat(result2));
-                    }
-                })
+                // database.query(`SELECT u.name from video v natural join user u where idvideo=${videoID}`, (err, result2)=>{
+                //     if(err){
+                //         res.send("ERROR AT GETTING NAMES");
+                //     }
+                //     else{
+                //         res.json(result.concat(result2));
+                //     }
+                // }
+
+                // )
+                res.json(result);
             }
         })
     }
 })
-
+getRoute.get("/videouser",(req,res)=>{
+    const userID = req.headers.iduser;
+    if(userID){
+        database.query(`SELECT * from video WHERE userid=${userID}`,(err,result)=>{
+            if(err){
+                res.send("THERE WAS AN ERROR!")
+                console.log(err);
+                
+            }else{
+                console.log(result);
+                
+                res.json(result);
+            }
+        })
+    }
+})
 
 // SEARCH BAR API
 getRoute.post("/search", (req,res)=>{
@@ -95,14 +114,17 @@ getRoute.post("/search", (req,res)=>{
 getRoute.get("/comments", (req,res)=>{
     console.log("/comments hit");
 
-    const videoID = req.headers.videoid;
-    if(!videoID){
+    const videoID = req.headers.idvideo;
+    console.log(videoID);
+    if(videoID===undefined){
         console.log("VIDEO ID NOT FOUND");
         res.send("VIDEO ID NOT FOUND!")
     }
     else{
-        database.query(`SELECT u.name, c.comment from user u NATURAL JOIN comments c where idvideo=${videoID}`, (err, result)=>{
+        database.query(`SELECT u.name, c.comment from user u INNER JOIN comments c on u.iduser=c.userid where c.videoid=${videoID}`, (err, result)=>{
             if(err){
+                console.log(err);
+                
                 res.send("SOMETHING WENT WRONG!")
             }
             else{
