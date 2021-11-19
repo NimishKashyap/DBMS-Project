@@ -3,6 +3,7 @@ import mysql from "mysql";
 import insertRoute from "./routes/insertRoutes";
 import getRoute from "./routes/getRoutes";
 import logRegRoute from "./routes/logRegRoutes";
+import deleteRoute from "./routes/deleteRoute";
 import expressFileUpload from "express-fileupload";
 import cors from "cors";
 // App initialization
@@ -16,7 +17,7 @@ app.use(express.urlencoded({extended:true, limit:"500mb", parameterLimit:500000}
 app.use("/backend", insertRoute);
 app.use("/backend", getRoute);
 app.use("/backend", logRegRoute);
-
+app.use("/backend",deleteRoute);
 // Follow this tutorial: https://www.youtube.com/watch?v=W8jySpfRUDY
 export const database = mysql.createConnection({
     host:"localhost",
